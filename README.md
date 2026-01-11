@@ -11,11 +11,11 @@ The `main.py` script automates the data workflow:
     *   Saves the raw data in the `data/` folder.
 
 2.  **Transform**:
+    *   Filters only columns of interest (Country, Age, Languages, Databases, Platforms).
     *   Standardizes country names.
     *   Converts age ranges to average numerical values.
     *   Drops rows with null values in key columns.
     *   Removes duplicate records.
-    *   Filters only columns of interest (Country, Age, Languages, Databases, Platforms).
 
 3.  **Load**:
     *   Saves the cleaned dataset in CSV (`survey_clean.csv`) and Parquet (`survey_clean.parquet`) formats in the `output/` folder.

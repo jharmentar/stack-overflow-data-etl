@@ -18,9 +18,10 @@ def extract(data_dir : str = 'data') -> dict:
 def transform(table : dict) -> pd.DataFrame:
     """Transform data."""
     df = table['Survey'].copy()
-
-    #Standardize Data
-    df['Country'] = df['Country'].replace({"Congo, Republic of the...": "Congo",
+    
+    df_use = df[['Country', 'Age', 'LanguageHaveWorkedWith', 'LanguageWantToWorkWith', 'DatabaseHaveWorkedWith', 'DatabaseWantToWorkWith','PlatformHaveWorkedWith', 'PlatformWantToWorkWith']].copy()
+    
+    df_use['Country'] = df_use['Country'].replace({"Congo, Republic of the...": "Congo",
     "Democratics People's Republic of Korea": "North Korea",
     "Hong Kong (S.A.R.)": "Hong Kong",
     "Iran, Islamic Republic of...": "Iran",
@@ -36,7 +37,7 @@ def transform(table : dict) -> pd.DataFrame:
     "Venezuela, Bolivarian Republic of...": "Venezuela",
     "Viet Nam": "Vietnam"})
 
-    df['Age'] = df['Age'].map({
+    df_use['Age'] = df_use['Age'].map({
         'Under 18 years old': 17,
         '18-24 years old': 21,
         '25-34 years old': 29.5,
@@ -48,24 +49,21 @@ def transform(table : dict) -> pd.DataFrame:
     })
 
     #Handle Nulls Values 
-    before = len(df)
-    df = df.dropna(subset=['Country', 'Age', 'LanguageHaveWorkedWith', 'LanguageWantToWorkWith', 'DatabaseHaveWorkedWith', 'DatabaseWantToWorkWith','PlatformHaveWorkedWith', 'PlatformWantToWorkWith'])
-    after = len(df)
+    before = len(df_use)
+    df_use = df_use.dropna()
+    after = len(df_use)
     print("Rows removed:", before - after)
 
     #Handle Duplicates
-    duplicate_rows = df[df.duplicated(keep=False)]
+    duplicate_rows = df_use[df_use.duplicated(keep=False)]
     if len(duplicate_rows) > 0:
-        df_cleaned = df.drop_duplicates(keep=False)
-        print("Dataset size:", len(df))
+        df_cleaned = df_use.drop_duplicates(keep=False)
+        print("Dataset size:", len(df_use))
         print("Duplicate rows removed:", len(duplicate_rows))
         print("Cleaned dataset size:", len(df_cleaned))
     else:
         print("No duplicate rows found in the dataset.")
 
-    #Copy Only Columns of Interest from Cleaned Data
-    df_cleaned = df.copy()
-    df_cleaned = df_cleaned[['Country', 'Age', 'LanguageHaveWorkedWith', 'LanguageWantToWorkWith', 'DatabaseHaveWorkedWith', 'DatabaseWantToWorkWith','PlatformHaveWorkedWith', 'PlatformWantToWorkWith']]
     return df_cleaned
 
 def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
