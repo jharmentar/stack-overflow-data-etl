@@ -1,6 +1,6 @@
 # Stack Overflow Developer Survey ETL Pipeline
 
-This project implements an ETL (Extract, Transform, Load) pipeline in Python to process and analyze data from the Stack Overflow Developer Survey.
+This project implements an ETL (Extract, Transform, Load) pipeline in Python to process and analyze data from the Stack Overflow Developer Survey to obtain metrics about the most used technologies and the most used platforms.
 
 ## Description
 
