@@ -19,8 +19,10 @@ def transform(table : dict) -> pd.DataFrame:
     """Transform data."""
     df = table['Survey'].copy()
     
+    #Copy only columns of interest
     df_use = df[['Country', 'Age', 'LanguageHaveWorkedWith', 'LanguageWantToWorkWith', 'DatabaseHaveWorkedWith', 'DatabaseWantToWorkWith','PlatformHaveWorkedWith', 'PlatformWantToWorkWith']].copy()
     
+    #Standardize data
     df_use['Country'] = df_use['Country'].replace({"Congo, Republic of the...": "Congo",
     "Democratics People's Republic of Korea": "North Korea",
     "Hong Kong (S.A.R.)": "Hong Kong",
@@ -69,6 +71,7 @@ def transform(table : dict) -> pd.DataFrame:
 def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
     """Load data to a CSV file."""
     os.makedirs(output_dir, exist_ok=True)
+
     print("Load: Saving Data...")
     df_cleaned.to_csv(f'{output_dir}/survey_clean.csv', index=False)
     df_cleaned.to_parquet(f'{output_dir}/survey_clean.parquet', index=False)
@@ -76,8 +79,8 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
     csv_size = os.path.getsize('output/survey_clean.csv') / 1024
     parquet_size = os.path.getsize('output/survey_clean.parquet') / 1024
 
-    print(f"Tamaño CSV: {csv_size:.1f} KB")
-    print(f"Tamaño Parquet: {parquet_size:.1f} KB")
+    print(f"CSV Size: {csv_size:.1f} KB")
+    print(f"Parquet Size: {parquet_size:.1f} KB")
     print(f"Parquet is {csv_size/parquet_size:.1f}x smaller than CSV")
 
     #Metrics
