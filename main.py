@@ -83,8 +83,8 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
     #Metrics
     #Top 10 Database Want To Work With
     db_want = df_cleaned['DatabaseWantToWorkWith'].str.split(';').explode()
-    top10_db = db_want.value_counts().head(10).reset_index(name='Count')
-    top10_db.columns = ['DatabaseWantToWorkWith', 'Count']
+    top10_db_want = db_want.value_counts().head(10).reset_index(name='Count')
+    top10_db_want.columns = ['DatabaseWantToWorkWith', 'Count']
 
     #Top 10 Database Have Worked With
     db_have = df_cleaned['DatabaseHaveWorkedWith'].str.split(';').explode()
@@ -93,8 +93,8 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
 
     #Top 10 Language Want To Work With
     lang_want = df_cleaned['LanguageWantToWorkWith'].str.split(';').explode()
-    top10_lang = lang_want.value_counts().head(10).reset_index(name='Count')
-    top10_lang.columns = ['LanguageWantToWorkWith', 'Count']
+    top10_lang_want = lang_want.value_counts().head(10).reset_index(name='Count')
+    top10_lang_want.columns = ['LanguageWantToWorkWith', 'Count']
 
     #Top 10 Language Have Worked With
     lang_have = df_cleaned['LanguageHaveWorkedWith'].str.split(';').explode()
@@ -103,13 +103,13 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
 
     #Top 10 Platform Want To Work With
     platform_want = df_cleaned['PlatformWantToWorkWith'].str.split(';').explode()
-    top10_platform = platform_want.value_counts().head(10).reset_index(name='Count')
-    top10_platform.columns = ['PlatformWantToWorkWith', 'Count']
+    top10_platform_want = platform_want.value_counts().head(10).reset_index(name='Count')
+    top10_platform_want.columns = ['PlatformWantToWorkWith', 'Count']
 
     #Top 10 Platform Have Worked With
     platform_have = df_cleaned['PlatformHaveWorkedWith'].str.split(';').explode()
     top10_platform_have = platform_have.value_counts().head(10).reset_index(name='Count')
-    top10_platform_have.columns = ['PlatformHaveWorkedWith', 'Count']
+    top10_platform_have.columns = ['PlatformHaveWorkedWith', 'Count']   
 
     #Top 10 WebFrame Have Worked With
     webframe_have = df_cleaned['WebframeHaveWorkedWith'].str.split(';').explode()
@@ -126,14 +126,14 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
     countries.columns = ['Country', 'Count']
 
     #Save Metrics
-    top10_db.to_csv(f'{output_dir}/top10_db.csv', index=False)
-    top10_db_have.to_csv(f'{output_dir}/top10_db_future.csv', index=False)
-    top10_lang.to_csv(f'{output_dir}/top10_lang.csv', index=False)
-    top10_lang_have.to_csv(f'{output_dir}/top10_lang_future.csv', index=False)
-    top10_platform.to_csv(f'{output_dir}/top10_platform.csv', index=False)
-    top10_platform_have.to_csv(f'{output_dir}/top10_platform_future.csv', index=False)
-    top10_webframe_have.to_csv(f'{output_dir}/top10_webframe.csv', index=False)
+    top10_db_want.to_csv(f'{output_dir}/top10_db_future.csv', index=False)
+    top10_db_have.to_csv(f'{output_dir}/top10_db.csv', index=False)
+    top10_lang_want.to_csv(f'{output_dir}/top10_lang_future.csv', index=False)
+    top10_lang_have.to_csv(f'{output_dir}/top10_lang.csv', index=False)
+    top10_platform_want.to_csv(f'{output_dir}/top10_platform_future.csv', index=False)
+    top10_platform_have.to_csv(f'{output_dir}/top10_platform.csv', index=False)
     top10_webframe_want.to_csv(f'{output_dir}/top10_webframe_future.csv', index=False)
+    top10_webframe_have.to_csv(f'{output_dir}/top10_webframe.csv', index=False)
     countries.to_csv(f'{output_dir}/countries.csv', index=False)
 
     print("Data saved successfully.")
