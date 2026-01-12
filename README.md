@@ -59,14 +59,14 @@ The resulting files will be saved in the `output/` folder:
     *   `survey_clean.csv`: Cleaned data in CSV format.
     *   `survey_clean.parquet`: Cleaned data in Parquet format (more efficient).
 *   **Metrics and Reports**:
-    *   `top10_db.csv`: Top 10 desired databases.
-    *   `top10_db_future.csv`: Top 10 databases currently used.
-    *   `top10_lang.csv`: Top 10 desired languages.
-    *   `top10_lang_future.csv`: Top 10 languages currently used.
-    *   `top10_platform.csv`: Top 10 desired platforms.
-    *   `top10_platform_future.csv`: Top 10 platforms currently used.
-    *   `top10_webframe.csv`: Top 10 desired web frameworks.
-    *   `top10_webframe_future.csv`: Top 10 web frameworks currently used.
+    *   `top10_db.csv`: Top 10 databases currently used.
+    *   `top10_db_future.csv`: Top 10 databases desired to use.
+    *   `top10_lang.csv`: Top 10 languages currently used.
+    *   `top10_lang_future.csv`: Top 10 languages desired to use.
+    *   `top10_platform.csv`: Top 10 platforms currently used.
+    *   `top10_platform_future.csv`: Top 10 platforms desired to use.
+    *   `top10_webframe.csv`: Top 10 web frameworks currently used.
+    *   `top10_webframe_future.csv`: Top 10 web frameworks desired to use.
     *   `countries.csv`: Developer count by country.
 
 ## Author
