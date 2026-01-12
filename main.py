@@ -20,7 +20,15 @@ def transform(table : dict) -> pd.DataFrame:
     df = table['Survey'].copy()
     
     #Copy only columns of interest
-    df_use = df[['Country', 'Age', 'LanguageHaveWorkedWith', 'LanguageWantToWorkWith', 'DatabaseHaveWorkedWith', 'DatabaseWantToWorkWith','PlatformHaveWorkedWith', 'PlatformWantToWorkWith']].copy()
+    df_use = df[['Country', 
+    'LanguageHaveWorkedWith', 
+    'LanguageWantToWorkWith', 
+    'DatabaseHaveWorkedWith', 
+    'DatabaseWantToWorkWith',
+    'PlatformHaveWorkedWith', 
+    'PlatformWantToWorkWith', 
+    'WebframeHaveWorkedWith', 
+    'WebframeWantToWorkWith']].copy()
     
     #Standardize data
     df_use['Country'] = df_use['Country'].replace({"Congo, Republic of the...": "Congo",
@@ -38,17 +46,6 @@ def transform(table : dict) -> pd.DataFrame:
     "United States of America": "United States",
     "Venezuela, Bolivarian Republic of...": "Venezuela",
     "Viet Nam": "Vietnam"})
-
-    df_use['Age'] = df_use['Age'].map({
-        'Under 18 years old': 17,
-        '18-24 years old': 21,
-        '25-34 years old': 29.5,
-        '35-44 years old': 39.5,
-        '45-54 years old': 49.5,
-        '55-64 years old': 59.5,
-        '65 years or older': 65,
-        'Prefer not to say': None
-    })
 
     #Handle Nulls Values 
     before = len(df_use)
@@ -85,57 +82,48 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
 
     #Metrics
     #Top 10 Database Want To Work With
-    db_want = df_cleaned['DatabaseWantToWorkWith']
-    db_want = db_want.str.split(';')
-    db_want = db_want.explode()
+    db_want = df_cleaned['DatabaseWantToWorkWith'].str.split(';').explode()
     top10_db = db_want.value_counts().head(10).reset_index(name='Count')
     top10_db.columns = ['DatabaseWantToWorkWith', 'Count']
 
     #Top 10 Database Have Worked With
-    db_have = df_cleaned['DatabaseHaveWorkedWith']
-    db_have = db_have.str.split(';')
-    db_have = db_have.explode()
+    db_have = df_cleaned['DatabaseHaveWorkedWith'].str.split(';').explode()
     top10_db_have = db_have.value_counts().head(10).reset_index(name='Count')
     top10_db_have.columns = ['DatabaseHaveWorkedWith', 'Count']
 
     #Top 10 Language Want To Work With
-    lang_want = df_cleaned['LanguageWantToWorkWith']
-    lang_want = lang_want.str.split(';')
-    lang_want = lang_want.explode()
+    lang_want = df_cleaned['LanguageWantToWorkWith'].str.split(';').explode()
     top10_lang = lang_want.value_counts().head(10).reset_index(name='Count')
     top10_lang.columns = ['LanguageWantToWorkWith', 'Count']
 
     #Top 10 Language Have Worked With
-    lang_have = df_cleaned['LanguageHaveWorkedWith']
-    lang_have = lang_have.str.split(';')
-    lang_have = lang_have.explode()
+    lang_have = df_cleaned['LanguageHaveWorkedWith'].str.split(';').explode()
     top10_lang_have = lang_have.value_counts().head(10).reset_index(name='Count')
     top10_lang_have.columns = ['LanguageHaveWorkedWith', 'Count']
 
     #Top 10 Platform Want To Work With
-    platform_want = df_cleaned['PlatformWantToWorkWith']
-    platform_want = platform_want.str.split(';')
-    platform_want = platform_want.explode()
+    platform_want = df_cleaned['PlatformWantToWorkWith'].str.split(';').explode()
     top10_platform = platform_want.value_counts().head(10).reset_index(name='Count')
     top10_platform.columns = ['PlatformWantToWorkWith', 'Count']
 
     #Top 10 Platform Have Worked With
-    platform_have = df_cleaned['PlatformHaveWorkedWith']
-    platform_have = platform_have.str.split(';')
-    platform_have = platform_have.explode()
+    platform_have = df_cleaned['PlatformHaveWorkedWith'].str.split(';').explode()
     top10_platform_have = platform_have.value_counts().head(10).reset_index(name='Count')
     top10_platform_have.columns = ['PlatformHaveWorkedWith', 'Count']
 
-    #Countries by developers and average age
+    #Top 10 WebFrame Have Worked With
+    webframe_have = df_cleaned['WebframeHaveWorkedWith'].str.split(';').explode()
+    top10_webframe_have = webframe_have.value_counts().head(10).reset_index(name='Count')
+    top10_webframe_have.columns = ['WebframeHaveWorkedWith', 'Count']
+
+    #Top 10 WebFrame Want To Work With
+    webframe_want = df_cleaned['WebframeWantToWorkWith'].str.split(';').explode()
+    top10_webframe_want = webframe_want.value_counts().head(10).reset_index(name='Count')
+    top10_webframe_want.columns = ['WebframeWantToWorkWith', 'Count']
+
+    #Countries by developers
     countries = df_cleaned['Country'].value_counts().reset_index(name='Count')
     countries.columns = ['Country', 'Count']
-    countries_age = countries.merge(df_cleaned.groupby('Country')['Age'].mean().reset_index(), on='Country')
-    countries_age.columns = ['Country', 'Count', 'Average Age']
-    countries_age = countries_age.sort_values(by='Count', ascending=False)
-
-    #Number of developers by age
-    dev_age = df_cleaned['Age'].value_counts().reset_index(name='Count').sort_values(by='Count', ascending=False)
-    dev_age.columns = ['Age', 'Count']
 
     #Save Metrics
     top10_db.to_csv(f'{output_dir}/top10_db.csv', index=False)
@@ -144,8 +132,9 @@ def load(df_cleaned : pd.DataFrame, output_dir : str = 'output'):
     top10_lang_have.to_csv(f'{output_dir}/top10_lang_future.csv', index=False)
     top10_platform.to_csv(f'{output_dir}/top10_platform.csv', index=False)
     top10_platform_have.to_csv(f'{output_dir}/top10_platform_future.csv', index=False)
-    countries_age.to_csv(f'{output_dir}/countries_age.csv', index=False)
-    dev_age.to_csv(f'{output_dir}/dev_age.csv', index=False)
+    top10_webframe_have.to_csv(f'{output_dir}/top10_webframe.csv', index=False)
+    top10_webframe_want.to_csv(f'{output_dir}/top10_webframe_future.csv', index=False)
+    countries.to_csv(f'{output_dir}/countries.csv', index=False)
 
     print("Data saved successfully.")
 

@@ -65,8 +65,9 @@ The resulting files will be saved in the `output/` folder:
     *   `top10_lang_future.csv`: Top 10 languages currently used.
     *   `top10_platform.csv`: Top 10 desired platforms.
     *   `top10_platform_future.csv`: Top 10 platforms currently used.
-    *   `countries_age.csv`: Developer count and average age by country.
-    *   `dev_age.csv`: Developer age distribution.
+    *   `top10_webframe.csv`: Top 10 desired web frameworks.
+    *   `top10_webframe_future.csv`: Top 10 web frameworks currently used.
+    *   `countries.csv`: Developer count by country.
 
 ## Author
 [Josue Armenta] [2026-01-08]
